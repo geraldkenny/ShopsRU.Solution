@@ -56,7 +56,7 @@ namespace ShopsRU.API.Extensions.Middlewares
                         try
                         {
                             var jsonError = JsonConvert.DeserializeObject<ErrorResponse>(readToEnd);
-                            await WriteResponseAsync(context, null, JsonConvert.SerializeObject(jsonError));
+                            await WriteResponseAsync(context, null, jsonError.ErrorDescription);
                         }
                         catch (Exception)
                         {

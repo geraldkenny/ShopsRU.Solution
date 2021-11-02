@@ -21,7 +21,7 @@ using System.Threading.Tasks;
 
 namespace ShopsRU.API
 {
-    public class Startup
+    public partial class Startup
     {
         public Startup(IConfiguration configuration)
         {
@@ -33,7 +33,11 @@ namespace ShopsRU.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddApiVersioning();
+            services.AddApiVersioning(o =>
+            {
+                o.AssumeDefaultVersionWhenUnspecified = true;
+                o.DefaultApiVersion = new ApiVersion(1, 0);
+            });
 
             // ===== Configure CORS ====
 
@@ -55,6 +59,8 @@ namespace ShopsRU.API
                      {
                          sqlOptions.EnableRetryOnFailure(maxRetryCount: 15, maxRetryDelay: TimeSpan.FromSeconds(30), errorNumbersToAdd: null);
                      }));
+
+            ConfigureDI(services);
 
             // ===== Auto Mapper Configurations ====
             var mappingConfig = new MapperConfiguration(mc =>

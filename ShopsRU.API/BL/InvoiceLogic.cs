@@ -1,5 +1,6 @@
 ﻿using ShopRU.Core.ModelDTO;
 using ShopsRU.API.BL.Interfaces;
+using ShopsRU.API.Repositories.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,54 +10,75 @@ namespace ShopsRU.API.BL
 {
     public class InvoiceLogic : IInvoiceLogic
     {
+        private readonly IUnitOfWork _unitOfWork;
+
+        public InvoiceLogic(IUnitOfWork unitOfWork)
+        {
+            _unitOfWork = unitOfWork;
+        }
+
         /// <summary>
         /// Calculates the discount on items and return the invoice amount to be paid
         /// </summary>
         /// <param name="bill"></param>
         /// <returns></returns>
-        public decimal CalculateDiscount(InvoiceBillDTO bill)
+        public async Task<decimal> CalculateInvoiceDiscountAsync(InvoiceBillDTO bill)
         {
             if (bill is null)
             {
                 throw new ArgumentNullException(nameof(bill));
             }
 
-            int percent = 0;
+            var discountType = await _unitOfWork.DiscountRepository.GetByTypeAsync(bill.Customer.UserType);
 
-            switch (bill.Customer.UserType)
+            try
             {
-                case Entities.UserType.Affiliate:
-                    percent = 10;
-                    break;
+                int percent = 0;
 
-                case Entities.UserType.Customer:
-                    percent = 30;
-                    break;
+                switch (discountType?.UserType)
+                {
+                    case Entities.UserType.Affiliate:
 
-                default:
-                    if (bill.Customer.CreatedAt > DateTime.Today.AddYears(-2))
-                    {
-                        percent = 5;
-                    }
+                        percent = discountType.Percent;
+                        break;
 
-                    break;
+                    case Entities.UserType.Employee:
+                        percent = discountType.Percent;
+                        break;
+
+                    default:
+                        if (bill.Customer.CreatedAt > DateTime.Today.AddYears(-2))
+                        {
+                            percent = 5;
+                        }
+
+                        break;
+                }
+
+                var discountableItemsAmount = bill.Items.Where(c => c.GoodsType != Entities.GoodsType.Groceries).Sum(x => x.Amount);
+                var discount = (discountableItemsAmount * percent) / 100;
+
+                var totalBillAmount = bill.Items.Sum(x => x.Amount);
+
+                var billAmountAfterDiscount = totalBillAmount - discount;
+                var netPayableAmount = Math.Round(billAmountAfterDiscount - (5 * billAmountAfterDiscount / 100));
+
+                bill.TotalAmount = totalBillAmount;
+                bill.DiscountAmount = totalBillAmount - netPayableAmount;
+                bill.InvoiceNumber = GenerateInvoice();
+
+                return netPayableAmount;
             }
-
-            var discountableItemsAmount = bill.Items.Where(c => c.GoodsType != Entities.GoodsType.Groceries).Sum(x => x.Amount);
-            var discount = (discountableItemsAmount * percent) / 100;
-
-            var totalBillAmount = bill.Items.Sum(x => x.Amount);
-
-            var billAmountAfterDiscount = totalBillAmount - discount;
-            var netPayableAmount = billAmountAfterDiscount - (5 * billAmountAfterDiscount / 100);
-
-            bill.TotalAmount = totalBillAmount;
-            bill.DiscountAmount = discount;
-            bill.InvoiceNumber = GenerateInvoice();
-
-            return netPayableAmount;
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
+        /// <summary>
+        /// Generates randomized invoice number
+        /// </summary>
+        /// <returns></returns>
         private static string GenerateInvoice()
         {
             string numbers = "1234567890";

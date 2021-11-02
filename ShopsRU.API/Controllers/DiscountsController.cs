@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using ShopRU.Core.Helpers;
 using ShopRU.Core.ModelDTO;
 using ShopsRU.API.Repositories.Interfaces;
@@ -21,11 +22,13 @@ namespace ShopsRU.API.Controllers
     {
         private readonly IMapper _mapper;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly ILogger<DiscountsController> _logger;
 
-        public DiscountsController(IUnitOfWork unitOfWork, IMapper mapper)
+        public DiscountsController(IUnitOfWork unitOfWork, IMapper mapper, ILogger<DiscountsController> logger)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _logger = logger;
         }
 
         /// <summary>
@@ -49,9 +52,18 @@ namespace ShopsRU.API.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet("{id}")]
-        public async Task<IActionResult> Get(int id)
+        public async Task<IActionResult> Get(int? id)
         {
-            var discount = await _unitOfWork.DiscountRepository.GetByTypeAsync(id);
+            if (id is null || !id.HasValue)
+            {
+                return NotFound(new ErrorResponse
+                {
+                    ErrorDescription = $"{nameof(id)} is required"
+                });
+            }
+
+            var discount = await _unitOfWork.DiscountRepository.GetByTypeAsync((UserType)id.Value);
+
             if (discount == null)
             {
                 return NotFound(new ErrorResponse
@@ -73,8 +85,17 @@ namespace ShopsRU.API.Controllers
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] DiscountDTO discountModel)
         {
+            _logger.LogInformation("HttpPost CustomersController.Post called.");
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ErrorResponse.GetModelStateErrors(ModelState.Values));
+            }
+
             var discount = _mapper.Map<Discounts>(discountModel);
+
             await _unitOfWork.DiscountRepository.InsertAsync(discount);
+            await _unitOfWork.CommitAsync();
 
             return Ok(discount);
         }

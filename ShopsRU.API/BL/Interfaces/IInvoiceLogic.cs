@@ -8,6 +8,6 @@ namespace ShopsRU.API.BL.Interfaces
 {
     public interface IInvoiceLogic
     {
-        decimal CalculateDiscount(InvoiceBillDTO bill);
+        Task<decimal> CalculateInvoiceDiscountAsync(InvoiceBillDTO bill);
     }
 }

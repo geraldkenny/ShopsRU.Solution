@@ -8,7 +8,7 @@ namespace ShopsRU.API.Repositories.Interfaces
     {
         Task<List<Discounts>> GetAllAsync();
 
-        Task<Discounts> GetByTypeAsync(int discountType);
+        Task<Discounts> GetByTypeAsync(UserType userType);
 
         Task InsertAsync(Discounts discount);
     }

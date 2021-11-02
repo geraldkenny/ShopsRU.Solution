@@ -18,13 +18,13 @@ namespace ShopRU.Core.Helpers
         [JsonProperty("version")]
         public static string Version => "1";
 
-        [JsonProperty("status_code")]
+        [JsonProperty("statusCode")]
         public int StatusCode { get; set; }
 
-        [JsonProperty("request_id")]
+        [JsonProperty("requestId")]
         public string RequestId { get; }
 
-        [JsonProperty("error_message")]
+        [JsonProperty("errorMessage")]
         public string ErrorMessage { get; set; }
 
         [JsonProperty("result")]

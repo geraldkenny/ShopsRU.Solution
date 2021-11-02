@@ -1,4 +1,5 @@
-﻿using ShopsRU.API.Persistance;
+﻿using Microsoft.EntityFrameworkCore;
+using ShopsRU.API.Persistance;
 using ShopsRU.API.Repositories.Interfaces;
 using ShopsRU.Entities;
 using System;
@@ -19,17 +20,17 @@ namespace ShopsRU.API.Repositories
 
         public async Task<List<Discounts>> GetAllAsync()
         {
-            throw new NotImplementedException();
+            return await _context.Discounts.ToListAsync();
         }
 
-        public async Task<Discounts> GetByTypeAsync(int discountType)
+        public async Task<Discounts> GetByTypeAsync(UserType userType)
         {
-            throw new NotImplementedException();
+            return await _context.Discounts.FirstOrDefaultAsync(x => x.UserType == userType);
         }
 
         public async Task InsertAsync(Discounts discount)
         {
-            throw new NotImplementedException();
+            await _context.AddAsync(discount);
         }
     }
 }

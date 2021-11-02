@@ -18,6 +18,7 @@ namespace ShopRU.Core.Configurations
             CreateMap<Customers, CustomerDTO>().ReverseMap();
             CreateMap<Discounts, DiscountDTO>().ReverseMap();
             CreateMap<Invoices, InvoiceBillDTO>().ForMember(x => x.Items, opt => opt.Ignore()).ReverseMap();
+            CreateMap<InvoiceBillDTO, InvoiceBillRequestDTO>().ReverseMap();
         }
     }
 }
