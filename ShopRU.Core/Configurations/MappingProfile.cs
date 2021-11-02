@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using ShopRU.Core.ModelDTO;
+using ShopsRU.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +15,9 @@ namespace ShopRU.Core.Configurations
         {
             //=== Add as many of these lines as you need to map your objects
             //=== ReverseMap maps the destination to source type
-            //CreateMap<App, RegisterAppViewModel>().ReverseMap();
+            CreateMap<Customers, CustomerDTO>().ReverseMap();
+            CreateMap<Discounts, DiscountDTO>().ReverseMap();
+            CreateMap<Invoices, InvoiceBillDTO>().ReverseMap();
         }
     }
 }

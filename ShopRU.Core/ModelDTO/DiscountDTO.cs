@@ -4,14 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ShopsRU.Entities
+namespace ShopRU.Core.ModelDTO
 {
-    public class Discounts : Base
-    {
-        public string Name { get; set; }
-    }
-
-    public class DiscountType : Base
+    public class DiscountDTO
     {
         public string Name { get; set; }
     }

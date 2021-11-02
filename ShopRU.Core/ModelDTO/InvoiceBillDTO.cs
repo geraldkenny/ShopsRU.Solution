@@ -1,18 +1,17 @@
-﻿using System;
+﻿using ShopsRU.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ShopsRU.Entities
+namespace ShopRU.Core.ModelDTO
 {
-    public class Invoices : Base
+    public class InvoiceBillDTO
     {
-        public string InvoiceNumber { get; set; }
         public decimal TotalAmount { get; set; }
-        public decimal DiscountAmount { get; set; }
         public GoodsType GoodsType { get; set; }
-
+        public decimal DiscountAmount { get; set; }
         public virtual Customers CustomersId { get; set; }
     }
 }
