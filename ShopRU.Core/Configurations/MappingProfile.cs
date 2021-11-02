@@ -17,7 +17,7 @@ namespace ShopRU.Core.Configurations
             //=== ReverseMap maps the destination to source type
             CreateMap<Customers, CustomerDTO>().ReverseMap();
             CreateMap<Discounts, DiscountDTO>().ReverseMap();
-            CreateMap<Invoices, InvoiceBillDTO>().ReverseMap();
+            CreateMap<Invoices, InvoiceBillDTO>().ForMember(x => x.Items, opt => opt.Ignore()).ReverseMap();
         }
     }
 }

@@ -11,8 +11,6 @@ namespace ShopsRU.Entities
         public string InvoiceNumber { get; set; }
         public decimal TotalAmount { get; set; }
         public decimal DiscountAmount { get; set; }
-        public GoodsType GoodsType { get; set; }
-
         public virtual Customers CustomersId { get; set; }
     }
 }

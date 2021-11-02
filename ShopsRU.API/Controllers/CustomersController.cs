@@ -32,7 +32,7 @@ namespace ShopsRU.API.Controllers
         /// Gets all available customers
         /// </summary>
         /// <returns></returns>
-        // GET: api/<CustomersController>
+        // GET: api/v1/<CustomersController>
         [HttpGet]
         public async Task<IActionResult> Get()
         {
@@ -42,7 +42,7 @@ namespace ShopsRU.API.Controllers
             return Ok(customersDto);
         }
 
-        // GET api/<CustomersController>/5
+        // GET api/v1/<CustomersController>/5
         /// <summary>
         /// Get a specific customer by ID
         /// </summary>
@@ -64,7 +64,7 @@ namespace ShopsRU.API.Controllers
             return Ok(customerDto);
         }
 
-        // GET api/<CustomersController>/gerald
+        // GET api/v1/<CustomersController>/gerald
         /// <summary>
         /// Get a specific customer by name
         /// </summary>
@@ -93,7 +93,7 @@ namespace ShopsRU.API.Controllers
         /// </summary>
         /// <param name="customerModel"></param>
         /// <returns></returns>
-        // POST api/<CustomersController>
+        // POST api/v1/<CustomersController>
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] CustomerDTO customerModel)
         {

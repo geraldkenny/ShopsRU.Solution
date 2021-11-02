@@ -10,8 +10,15 @@ namespace ShopRU.Core.ModelDTO
     public class InvoiceBillDTO
     {
         public decimal TotalAmount { get; set; }
-        public GoodsType GoodsType { get; set; }
         public decimal DiscountAmount { get; set; }
-        public virtual Customers CustomersId { get; set; }
+        public string InvoiceNumber { get; set; }
+        public List<Items> Items { get; set; }
+        public virtual Customers Customer { get; set; }
+    }
+
+    public class Items
+    {
+        public decimal Amount { get; set; }
+        public GoodsType GoodsType { get; set; }
     }
 }
