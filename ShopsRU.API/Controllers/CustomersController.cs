@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using ShopRU.Core.Helpers;
 using ShopRU.Core.ModelDTO;
 using ShopsRU.API.Repositories.Interfaces;
 using ShopsRU.Entities;
@@ -51,6 +52,13 @@ namespace ShopsRU.API.Controllers
         public async Task<IActionResult> Get(int id)
         {
             var customer = await _unitOfWork.CustomerRepository.GetByIdentiferAsync(id);
+            if (customer == null)
+            {
+                return NotFound(new ErrorResponse
+                {
+                    ErrorDescription = $"{id} is not found or does not exist"
+                });
+            }
             var customerDto = _mapper.Map<CustomerDTO>(customer);
 
             return Ok(customerDto);
@@ -66,6 +74,15 @@ namespace ShopsRU.API.Controllers
         public async Task<IActionResult> Get(string name)
         {
             var customer = await _unitOfWork.CustomerRepository.GetByIdentiferAsync(name);
+
+            if (customer == null)
+            {
+                return NotFound(new ErrorResponse
+                {
+                    ErrorDescription = $"{name} is not found or does not exist"
+                });
+            }
+
             var customerDto = _mapper.Map<CustomerDTO>(customer);
 
             return Ok(customerDto);

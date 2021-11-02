@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using ShopRU.Core.Helpers;
 using ShopRU.Core.ModelDTO;
 using ShopsRU.API.Repositories.Interfaces;
 using ShopsRU.Entities;
@@ -51,6 +52,13 @@ namespace ShopsRU.API.Controllers
         public async Task<IActionResult> Get(int id)
         {
             var discount = await _unitOfWork.DiscountRepository.GetByTypeAsync(id);
+            if (discount == null)
+            {
+                return NotFound(new ErrorResponse
+                {
+                    ErrorDescription = $"{id} is not found or does not exist"
+                });
+            }
             var discountDto = _mapper.Map<DiscountDTO>(discount);
 
             return Ok(discountDto);
