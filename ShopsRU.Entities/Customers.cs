@@ -5,6 +5,8 @@ namespace ShopsRU.Entities
 {
     public class Customers : Base
     {
+        //TODO: Make name unique
+
         [MaxLength(40)]
         public string Name { get; set; }
 
