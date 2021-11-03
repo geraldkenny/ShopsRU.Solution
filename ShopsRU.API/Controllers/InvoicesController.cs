@@ -51,7 +51,7 @@ namespace ShopsRU.API.Controllers
             try
             {
                 InvoiceBillDTO invoiceBill = _mapper.Map<InvoiceBillDTO>(invoiceBillModel);
-                invoiceBill.Customer = await _unitOfWork.CustomerRepository.GetByIdentiferAsync(invoiceBillModel.CustomerName);
+                invoiceBill.Customers = await _unitOfWork.CustomerRepository.GetByIdentiferAsync(invoiceBillModel.CustomerName);
 
                 // Do invoice discount calculation
                 var invoiceAmount = await _invoiceLogic.CalculateInvoiceDiscountAsync(invoiceBill);

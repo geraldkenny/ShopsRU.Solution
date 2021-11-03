@@ -1,6 +1,7 @@
 ﻿using ShopRU.Core.ModelDTO;
 using ShopsRU.API.BL.Interfaces;
 using ShopsRU.API.Repositories.Interfaces;
+using ShopsRU.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,12 +25,12 @@ namespace ShopsRU.API.BL
         /// <returns></returns>
         public async Task<decimal> CalculateInvoiceDiscountAsync(InvoiceBillDTO bill)
         {
-            if (bill is null)
+            if (bill is null || bill.Customers is null)
             {
                 throw new ArgumentNullException(nameof(bill));
             }
 
-            var discountType = await _unitOfWork.DiscountRepository.GetByTypeAsync(bill.Customer.UserType);
+            Discounts discountType = await _unitOfWork.DiscountRepository.GetByTypeAsync(bill.Customers.UserType);
 
             try
             {
@@ -37,17 +38,17 @@ namespace ShopsRU.API.BL
 
                 switch (discountType?.UserType)
                 {
-                    case Entities.UserType.Affiliate:
+                    case UserType.Affiliate:
 
                         percent = discountType.Percent;
                         break;
 
-                    case Entities.UserType.Employee:
+                    case UserType.Employee:
                         percent = discountType.Percent;
                         break;
 
                     default:
-                        if (bill.Customer.CreatedAt > DateTime.Today.AddYears(-2))
+                        if (bill.Customers.CreatedAt > DateTime.Today.AddYears(-2))
                         {
                             percent = 5;
                         }

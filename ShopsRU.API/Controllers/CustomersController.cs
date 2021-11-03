@@ -125,6 +125,7 @@ namespace ShopsRU.API.Controllers
             try
             {
                 var customer = _mapper.Map<Customers>(customerModel);
+                customer.Name = customer.Name.Trim().ToLower();
 
                 await _unitOfWork.CustomerRepository.InsertAsync(customer);
 

@@ -35,12 +35,12 @@ namespace ShopRU.Core.Helpers
             {
                 new Customers
                 {
-                    Name = "John",
+                    Name = "John".ToLower(),
                     UserType = UserType.Employee
                 },
                 new Customers
                 {
-                    Name = "Akin",
+                    Name = "Akin".ToLower(),
                     UserType = UserType.Affiliate
                 }
             }.AsReadOnly();

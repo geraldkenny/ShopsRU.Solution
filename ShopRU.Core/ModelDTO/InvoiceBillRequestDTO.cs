@@ -19,7 +19,7 @@ namespace ShopRU.Core.ModelDTO
         public decimal TotalAmount { get; set; }
         public decimal DiscountAmount { get; set; }
         public string InvoiceNumber { get; set; }
-        public Customers Customer { get; set; }
+        public Customers Customers { get; set; }
     }
 
     public class BaseInvoiceBillDTO
