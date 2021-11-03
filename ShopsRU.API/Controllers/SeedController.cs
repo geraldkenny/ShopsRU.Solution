@@ -45,7 +45,7 @@ namespace ShopsRU.API.Controllers
             {
                 _logger.LogError(ex, "Error occured");
 
-                return Ok(new ErrorResponse { ErrorDescription = "Can not insert duplicate of user type in discounts" });
+                return StatusCode(StatusCodes.Status500InternalServerError, new ErrorResponse { ErrorDescription = "Can not insert duplicate of user type in discounts" });
             }
 
             _logger.LogInformation("HttpGet SeedController Done.");

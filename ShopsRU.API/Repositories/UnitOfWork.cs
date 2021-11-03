@@ -22,6 +22,10 @@ namespace ShopsRU.API.Repositories
             DiscountRepository = new DiscountRepository(_context);
         }
 
+        /// <summary>
+        /// Commits all active transaction in the request session
+        /// </summary>
+        /// <returns></returns>
         public async Task CommitAsync()
         {
             try

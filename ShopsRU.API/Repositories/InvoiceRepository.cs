@@ -17,9 +17,14 @@ namespace ShopsRU.API.Repositories
             _context = context;
         }
 
+        /// <summary>
+        /// Inserts <paramref name="invoice"/> into the <see cref="Invoices"/>
+        /// </summary>
+        /// <param name="invoice"></param>
+        /// <returns></returns>
         public async Task InsertAsync(Invoices invoice)
         {
-            throw new NotImplementedException();
+            await _context.Invoices.AddAsync(invoice);
         }
     }
 }

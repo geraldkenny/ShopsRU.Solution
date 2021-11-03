@@ -67,7 +67,7 @@ namespace ShopsRU.API.Controllers
             {
                 _logger.LogError(ex, "Error occured");
 
-                return Ok(new ErrorResponse { ErrorDescription = "An error occured" });
+                return StatusCode(StatusCodes.Status500InternalServerError, new ErrorResponse { ErrorDescription = "An error occured" });
             }
         }
     }

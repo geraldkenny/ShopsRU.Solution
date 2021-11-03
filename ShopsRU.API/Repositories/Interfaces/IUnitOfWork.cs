@@ -11,6 +11,10 @@ namespace ShopsRU.API.Repositories.Interfaces
         IInvoiceRepository InvoiceRepository { get; }
         IDiscountRepository DiscountRepository { get; }
 
+        /// <summary>
+        /// Commits all active transaction in the request session
+        /// </summary>
+        /// <returns></returns>
         Task CommitAsync();
     }
 }
