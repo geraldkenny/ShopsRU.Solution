@@ -88,5 +88,108 @@ namespace ShopsRU.API.Migrations
             migrationBuilder.DropTable(
                 name: "Customers");
         }
+
+        #region SQL Queries
+
+        #region Customer Query
+
+        /* USE [SHOPRU-DB]
+		   GO
+
+			SET ANSI_NULLS ON
+			GO
+
+		   SET QUOTED_IDENTIFIER ON
+		   GO
+
+		   CREATE TABLE[dbo].[Customers]
+				   (
+
+			  [Id][int] IDENTITY(1,1) NOT NULL,
+
+			 [Name] [nvarchar] (40) NULL,
+			   [Address] [nvarchar] (150) NULL,
+			   [UserType] [int] NOT NULL,
+
+			   [ModifiedAt] [datetime2] (7) NULL,
+			   [CreatedAt] [datetime2] (7) NULL,
+			CONSTRAINT[PK_Customers] PRIMARY KEY CLUSTERED
+		   (
+			  [Id] ASC
+		   )WITH(PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON[PRIMARY]
+		   ) ON[PRIMARY]
+		   GO
+
+	   */
+
+        #endregion Customer Query
+
+        #region Discounts Query
+
+        /*
+			USE [SHOPRU-DB]
+			GO
+
+			SET ANSI_NULLS ON
+			GO
+
+			SET QUOTED_IDENTIFIER ON
+			GO
+
+			CREATE TABLE [dbo].[Discounts](
+				[Id] [int] IDENTITY(1,1) NOT NULL,
+				[Name] [nvarchar](10) NULL,
+				[Percent] [int] NOT NULL,
+				[UserType] [int] NOT NULL,
+				[ModifiedAt] [datetime2](7) NULL,
+				[CreatedAt] [datetime2](7) NULL,
+			 CONSTRAINT [PK_Discounts] PRIMARY KEY CLUSTERED
+			(
+				[Id] ASC
+			)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+			) ON [PRIMARY]
+			GO
+		*/
+
+        #endregion Discounts Query
+
+        #region Invoices Query
+
+        /*
+		 USE [SHOPRU-DB]
+		GO
+
+		SET ANSI_NULLS ON
+		GO
+
+		SET QUOTED_IDENTIFIER ON
+		GO
+
+		CREATE TABLE [dbo].[Invoices](
+			[Id] [int] IDENTITY(1,1) NOT NULL,
+			[InvoiceNumber] [nvarchar](20) NULL,
+			[TotalAmount] [decimal](18, 4) NOT NULL,
+			[DiscountAmount] [decimal](18, 4) NOT NULL,
+			[CustomersId] [int] NULL,
+			[ModifiedAt] [datetime2](7) NULL,
+			[CreatedAt] [datetime2](7) NULL,
+		 CONSTRAINT [PK_Invoices] PRIMARY KEY CLUSTERED
+		(
+			[Id] ASC
+		)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+		) ON [PRIMARY]
+		GO
+
+		ALTER TABLE [dbo].[Invoices]  WITH CHECK ADD  CONSTRAINT [FK_Invoices_Customers_CustomersId] FOREIGN KEY([CustomersId])
+		REFERENCES [dbo].[Customers] ([Id])
+		GO
+
+		ALTER TABLE [dbo].[Invoices] CHECK CONSTRAINT [FK_Invoices_Customers_CustomersId]
+		GO
+		 */
+
+        #endregion Invoices Query
+
+        #endregion SQL Queries
     }
 }
