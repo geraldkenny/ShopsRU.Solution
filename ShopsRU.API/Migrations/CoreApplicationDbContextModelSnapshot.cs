@@ -68,7 +68,13 @@ namespace ShopsRU.API.Migrations
                     b.Property<int>("Percent")
                         .HasColumnType("int");
 
+                    b.Property<int>("UserType")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("UserType")
+                        .IsUnique();
 
                     b.ToTable("Discounts");
                 });

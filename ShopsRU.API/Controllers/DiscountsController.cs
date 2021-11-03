@@ -93,9 +93,17 @@ namespace ShopsRU.API.Controllers
             }
 
             var discount = _mapper.Map<Discounts>(discountModel);
+            try
+            {
+                await _unitOfWork.DiscountRepository.InsertAsync(discount);
+                await _unitOfWork.CommitAsync();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occured");
 
-            await _unitOfWork.DiscountRepository.InsertAsync(discount);
-            await _unitOfWork.CommitAsync();
+                return Ok(new ErrorResponse { ErrorDescription = "Can not insert duplicate of user type in discounts" });
+            }
 
             return Ok(discount);
         }

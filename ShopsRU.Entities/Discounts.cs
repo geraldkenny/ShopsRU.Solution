@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ShopsRU.Entities
 {
+    [Microsoft.EntityFrameworkCore.Index(nameof(UserType), IsUnique = true)]
     public class Discounts : Base
     {
         [MaxLength(10)]

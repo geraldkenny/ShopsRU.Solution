@@ -32,6 +32,7 @@ namespace ShopsRU.API.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: true),
                     Percent = table.Column<int>(type: "int", nullable: false),
+                    UserType = table.Column<int>(type: "int", nullable: false),
                     ModifiedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
@@ -63,6 +64,12 @@ namespace ShopsRU.API.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Discounts_UserType",
+                table: "Discounts",
+                column: "UserType",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Invoices_CustomersId",

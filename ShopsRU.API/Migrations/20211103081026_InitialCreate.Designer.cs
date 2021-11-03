@@ -10,7 +10,7 @@ using ShopsRU.API.Persistance;
 namespace ShopsRU.API.Migrations
 {
     [DbContext(typeof(CoreApplicationDbContext))]
-    [Migration("20211102125334_InitialCreate")]
+    [Migration("20211103081026_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -70,7 +70,13 @@ namespace ShopsRU.API.Migrations
                     b.Property<int>("Percent")
                         .HasColumnType("int");
 
+                    b.Property<int>("UserType")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("UserType")
+                        .IsUnique();
 
                     b.ToTable("Discounts");
                 });

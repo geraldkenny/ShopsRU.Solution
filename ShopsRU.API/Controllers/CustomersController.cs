@@ -122,11 +122,20 @@ namespace ShopsRU.API.Controllers
                 return BadRequest(ErrorResponse.GetModelStateErrors(ModelState.Values));
             }
 
-            var customer = _mapper.Map<Customers>(customerModel);
+            try
+            {
+                var customer = _mapper.Map<Customers>(customerModel);
 
-            await _unitOfWork.CustomerRepository.InsertAsync(customer);
+                await _unitOfWork.CustomerRepository.InsertAsync(customer);
 
-            await _unitOfWork.CommitAsync();
+                await _unitOfWork.CommitAsync();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occured");
+
+                return Ok(new ErrorResponse { ErrorDescription = "Error occured" });
+            }
 
             return Ok(customerModel);
         }
