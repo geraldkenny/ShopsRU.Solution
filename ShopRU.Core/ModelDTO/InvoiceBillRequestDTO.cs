@@ -10,8 +10,7 @@ namespace ShopRU.Core.ModelDTO
 {
     public class InvoiceBillRequestDTO : BaseInvoiceBillDTO
     {
-        [Required(AllowEmptyStrings = false)]
-        public string CustomerName { get; set; }
+        public int CustomerId { get; set; }
     }
 
     public class InvoiceBillDTO : BaseInvoiceBillDTO
@@ -24,6 +23,9 @@ namespace ShopRU.Core.ModelDTO
 
     public class BaseInvoiceBillDTO
     {
+        /// <summary>
+        /// <value> Contains <see cref="List{Items}"/> with the amount and good type </value>
+        /// </summary>
         public List<Items> Items { get; set; }
     }
 
